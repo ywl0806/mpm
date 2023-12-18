@@ -1,6 +1,7 @@
 package mpm
 
 import (
+	"errors"
 	"fmt"
 	"os"
 
@@ -8,13 +9,17 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "stringer",
-	Short: "stringer - a simple CLI to transform and inspect strings",
-	Long: `stringer is a super fancy CLI (kidding)
-	  
-   One can use stringer to modify or inspect strings straight from the terminal`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Print("hoge")
+	Use:   "mpm",
+	Short: "mpm - a simple CLI to managment local projects",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		dirPath, err := os.Getwd()
+		if err != nil {
+			return errors.New(" Can not get directory path")
+		}
+
+		fmt.Println(dirPath)
+
+		return nil
 	},
 }
 
