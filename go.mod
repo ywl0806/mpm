@@ -1,4 +1,4 @@
-module github/ywl0806/my-pj-manager
+module github.com/ywl0806/my-pj-manager
 
 go 1.21.3
 
