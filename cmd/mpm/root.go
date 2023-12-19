@@ -1,20 +1,31 @@
 package mpm
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"os/exec"
 
 	"github.com/spf13/cobra"
+	"github.com/ywl0806/my-pj-manager/pkg/mpm"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "stringer",
-	Short: "stringer - a simple CLI to transform and inspect strings",
-	Long: `stringer is a super fancy CLI (kidding)
-	  
-   One can use stringer to modify or inspect strings straight from the terminal`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Print("hoge")
+	Use:   "mpm",
+	Short: "mpm - a simple CLI to managment local projects",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		directories, err := mpm.GetGithubDirectories()
+		if err != nil {
+			return errors.New(" Error occurred")
+		}
+		for _, directory := range directories {
+			fmt.Println("execute code", directory)
+			cmd := exec.Command("code", directory)
+
+			fmt.Println(cmd.Output())
+
+		}
+		return nil
 	},
 }
 
