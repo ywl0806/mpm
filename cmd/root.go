@@ -25,7 +25,7 @@ var rootCmd = &cobra.Command{
 		// survey.AskOne(prompt, &answer)
 		// fmt.Println(answer)
 		// cmd.Help()
-		directories, err := util.GetDirectories("", "")
+		directories, err := util.GetDirectories("", "", true)
 
 		if err != nil {
 			return errors.New(" Error occurred")

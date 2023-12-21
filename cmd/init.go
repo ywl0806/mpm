@@ -7,22 +7,28 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	initfunc "github.com/ywl0806/my-pj-manager/pkg/initFunc"
 )
 
 // initCmd represents the init command
 var initCmd = &cobra.Command{
-	Use:   "init",
+	Use:   "i",
 	Short: "",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("init called")
 
-		fmt.Println(args)
+		isAll, _ := cmd.Flags().GetBool("all")
+		fmt.Println(isAll)
+
+		if !isAll {
+			initfunc.SurveyChooseDirectory()
+		}
 	},
 }
 
 func init() {
-
+	initCmd.Flags().BoolP("all", "a", false, "현재 디렉토리 전부를 대상")
 	rootCmd.AddCommand(initCmd)
 	// Here you will define your flags and configuration settings.
 
