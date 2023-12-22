@@ -12,7 +12,7 @@ import (
 //
 //   - `directory` == "" 일경우 현재의 디렉토리를 탐색
 //   - `searchFileName` -> 필터링대상 파일
-//   - `include` -> 필터링 대상 포함 여부 ture -> 필터링 대상 파일이 포함된 디렉토리만 반환
+//   - `include` -> 필터링 대상 포함 여부 ture이면 필터링 대상 파일이 포함된 디렉토리만 반환
 func GetDirectories(directory string, searchFileName string, include bool) ([]fs.DirEntry, error) {
 
 	var currentDirectory string
