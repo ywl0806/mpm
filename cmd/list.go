@@ -1,31 +1,27 @@
 /*
 Copyright © 2023 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"github.com/ywl0806/my-pj-manager/pkg/list"
 )
 
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Show list of your project",
+	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+		detail, _ := cmd.Flags().GetBool("detail")
+
+		list.List(detail)
 	},
 }
 
 func init() {
+	listCmd.Flags().BoolP("detail", "d", false, "상세정보 출력")
 	rootCmd.AddCommand(listCmd)
 
 	// Here you will define your flags and configuration settings.
