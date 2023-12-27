@@ -16,7 +16,7 @@ var listCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		detail, _ := cmd.Flags().GetBool("detail")
 
-		list.List(detail)
+		list.ShowList(detail)
 	},
 }
 

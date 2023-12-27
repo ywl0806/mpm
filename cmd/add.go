@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/ywl0806/my-pj-manager/pkg/register"
+	"github.com/ywl0806/my-pj-manager/pkg/add"
 )
 
 // addCmd represents the init command
@@ -19,7 +19,7 @@ var addCmd = &cobra.Command{
 		fmt.Println("init called")
 		name, _ := cmd.Flags().GetString("name")
 		isAll, _ := cmd.Flags().GetBool("all")
-		register.Add(isAll, name)
+		add.Add(isAll, name)
 
 	},
 }

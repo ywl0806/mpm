@@ -38,7 +38,7 @@ func init() {
 
 		err := encoder.Encode(initData)
 		if err != nil {
-			fmt.Println("JSON 쓰기 오류:", err)
+			fmt.Println("JSON write error:", err)
 			return
 		}
 
@@ -47,6 +47,7 @@ func init() {
 	}
 
 }
+
 func List() ([]Project, error) {
 	projects, err := getProjects()
 
@@ -78,3 +79,9 @@ func Add(project Project) (Project, error) {
 func Delete() {}
 
 func Update() {}
+
+func IsProjectNameDuplicate(name string) bool {
+	projects, _ := getProjects()
+
+	return checkDuplicate(projects, name)
+}
