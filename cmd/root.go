@@ -4,9 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	// "github.com/AlecAivazis/survey/v2"
 	"github.com/spf13/cobra"
-	"github.com/ywl0806/my-pj-manager/pkg/db"
 	"github.com/ywl0806/my-pj-manager/pkg/execute"
 )
 
@@ -16,11 +14,7 @@ var rootCmd = &cobra.Command{
 	Long:  `mpm <- Run recently used commands`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		projects, _ := db.List()
-		db.SortProjectsByLastUsed(&projects)
-
-		execute.ExecuteProject(projects[0])
-
+		execute.ExecuteRecentProject()
 	},
 }
 

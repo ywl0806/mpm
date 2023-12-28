@@ -1,25 +1,28 @@
 package execute
 
 import (
-	"errors"
-	"log"
-	"os/exec"
-
 	"github.com/ywl0806/my-pj-manager/pkg/db"
 )
 
-func ExecuteProject(project db.Project) {
+func ExecuteRecentProject() {
+	projects, _ := db.List()
+	db.SortProjectsByLastUsed(&projects)
+	executeProject(projects[0])
+}
+func ExecuteProjectByNames(names []string) {
+	allProjects, _ := db.List()
+	var projects []db.Project
 
-	for _, dir := range project.Directories {
+	nameSet := map[string]bool{}
 
-		executer := exec.Command(dir.Cmd, project.Path+"/"+dir.Path, dir.Options)
-
-		if errors.Is(executer.Err, exec.ErrDot) {
-			executer.Err = nil
-		}
-		if err := executer.Run(); err != nil {
-			log.Fatal(err)
-		}
-
+	for _, name := range names {
+		nameSet[name] = true
 	}
+
+	for _, pj := range allProjects {
+		if nameSet[pj.Name] {
+			projects = append(projects, pj)
+		}
+	}
+
 }
