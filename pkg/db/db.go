@@ -1,87 +1,48 @@
 package db
 
 import (
-	"encoding/json"
-	"errors"
 	"fmt"
 	"log"
-	"os"
+	"sync"
+
+	"github.com/boltdb/bolt"
 )
 
-var DB_PATH string = "tmp/data.json"
+var (
+	Db     *bolt.DB
+	DbOnce sync.Once
+)
+var models = []string{"PROJECTS"}
 
-func init() {
-	data, err := os.Open(DB_PATH)
+func InitalizeDB() {
+	var err error
+	Db, err = bolt.Open("tmp/my.db", 0600, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	if err != nil && data == nil {
-		log.Println("***init db***")
-
-		projects := []Project{}
-		initData := JsonData{Projects: projects}
-
-		createDirecotyErr := os.Mkdir("tmp", 0755)
-
-		if createDirecotyErr != nil {
-			fmt.Println("make dir error")
-			return
-		}
-
-		newJson, createErr := os.Create(DB_PATH)
-
-		if createErr != nil {
-			fmt.Println("json create error")
-			return
-		}
-		defer newJson.Close()
-
-		encoder := json.NewEncoder(newJson)
-
-		err := encoder.Encode(initData)
+	err = Db.Update(func(tx *bolt.Tx) error {
+		root, err := tx.CreateBucketIfNotExists([]byte("DB"))
 		if err != nil {
-			fmt.Println("JSON write error:", err)
-			return
+			return fmt.Errorf("could not create root bucket: %v", err)
 		}
-
-		fmt.Println("data initalize")
-
-	}
-
-}
-
-func List() ([]Project, error) {
-	projects, err := getProjects()
-
+		for _, model := range models {
+			_, err = root.CreateBucketIfNotExists([]byte(model))
+			if err != nil {
+				return fmt.Errorf("could not create %s bucket: %v", model, err)
+			}
+		}
+		return nil
+	})
 	if err != nil {
-		fmt.Println("Can not get data")
-		return nil, err
+		log.Fatal("could not set up buckets")
 	}
-
-	return projects, nil
-}
-func Add(project Project) (Project, error) {
-	projects, err := getProjects()
-
-	if err != nil {
-		fmt.Println("Can not get data")
-		return Project{}, err
-	}
-
-	if checkDuplicate(projects, project.Name) {
-		return Project{}, errors.New("duplicate project name")
-	}
-
-	projects = append(projects, project)
-	saveProjects(projects)
-	return project, nil
 
 }
 
-func Delete() {}
-
-func Update() {}
-
-func IsProjectNameDuplicate(name string) bool {
-	projects, _ := getProjects()
-
-	return checkDuplicate(projects, name)
+func GetDB() *bolt.DB {
+	return Db
+}
+func CloseDB() {
+	Db.Close()
 }

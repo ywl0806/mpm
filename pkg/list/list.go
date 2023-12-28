@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/ywl0806/my-pj-manager/pkg/db"
+	"github.com/ywl0806/my-pj-manager/pkg/db/project"
 )
 
 func ShowList(detail bool) {
-	list, err := db.List()
+	list, err := project.List()
+
 	sort.Slice(list, func(i, j int) bool { return list[i].Last_use_at > list[j].Last_use_at })
 	if err != nil {
 		fmt.Println("Show list error")
@@ -23,13 +24,13 @@ func ShowList(detail bool) {
 
 }
 
-func showListOnlyName(projects []db.Project) {
+func showListOnlyName(projects []project.Project) {
 	for _, pj := range projects {
 		fmt.Println(pj.Name)
 	}
 }
 
-func showListDetail(projects []db.Project) {
+func showListDetail(projects []project.Project) {
 	for _, pj := range projects {
 		fmt.Print("\n\n--------------------------------------\n\n")
 		fmt.Printf("Name : %s \n", pj.Name)

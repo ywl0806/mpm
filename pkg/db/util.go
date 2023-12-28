@@ -1,9 +1,24 @@
 package db
 
-import "sort"
+import (
+	"bytes"
+	"encoding/gob"
+	"log"
+)
 
-func SortProjectsByLastUsed(list *[]Project) {
-	project := *list
+func Serialize(data interface{}) []byte {
+	buf := bytes.NewBuffer(nil)
+	gob.Register(data)
+	err := gob.NewEncoder(buf).Encode(data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return buf.Bytes()
+}
 
-	sort.Slice(project, func(i, j int) bool { return project[i].Last_use_at > project[j].Last_use_at })
+func Deserialize(data []byte, v interface{}) error {
+	gob.Register(v)
+	buf := bytes.NewBuffer(data)
+	dec := gob.NewDecoder(buf)
+	return dec.Decode(v)
 }

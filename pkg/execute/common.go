@@ -5,10 +5,10 @@ import (
 	"log"
 	"os/exec"
 
-	"github.com/ywl0806/my-pj-manager/pkg/db"
+	"github.com/ywl0806/my-pj-manager/pkg/db/project"
 )
 
-func executeProject(project db.Project) {
+func executeProject(project project.Project) {
 
 	for _, dir := range project.Directories {
 

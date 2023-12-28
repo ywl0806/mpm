@@ -1,17 +1,19 @@
 package execute
 
 import (
-	"github.com/ywl0806/my-pj-manager/pkg/db"
+	"sort"
+
+	"github.com/ywl0806/my-pj-manager/pkg/db/project"
 )
 
 func ExecuteRecentProject() {
-	projects, _ := db.List()
-	db.SortProjectsByLastUsed(&projects)
+	projects, _ := project.List()
+	sort.Slice(projects, func(i, j int) bool { return projects[i].Last_use_at > projects[j].Last_use_at })
 	executeProject(projects[0])
 }
 func ExecuteProjectByNames(names []string) {
-	allProjects, _ := db.List()
-	var projects []db.Project
+	allProjects, _ := project.List()
+	var projects []project.Project
 
 	nameSet := map[string]bool{}
 
