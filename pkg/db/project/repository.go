@@ -1,6 +1,7 @@
 package project
 
 import (
+	"errors"
 	"fmt"
 	"log"
 
@@ -10,6 +11,21 @@ import (
 
 func Bucket(tx *bolt.Tx) *bolt.Bucket {
 	return tx.Bucket([]byte("DB")).Bucket([]byte("PROJECTS"))
+}
+func FindByName(name string) (pj Project, err error) {
+	err = db.Db.View(func(tx *bolt.Tx) (viewErr error) {
+		bucket := Bucket(tx)
+		rawPj := bucket.Get([]byte(name))
+
+		if rawPj == nil {
+			return errors.New(" Not Found")
+		}
+
+		viewErr = db.Deserialize(rawPj, &pj)
+		return viewErr
+	})
+
+	return pj, err
 }
 func List() (projects []Project, err error) {
 
@@ -36,11 +52,11 @@ func Add(newPj Project) error {
 
 		b := Bucket(tx)
 
-		if IsProjectNameDuplicate(newPj.Name, b) {
+		if CheckIsProjectExist(newPj.Name, b) {
 			return fmt.Errorf("duplicated name: %s", newPj.Name)
 		}
 
-		err = b.Put([]byte(newPj.Name), db.Serialize(newPj))
+		err = b.Put([]byte(newPj.Name), db.Serialize(&newPj))
 
 		if err != nil {
 			return fmt.Errorf("could not insert project: %v", err)
@@ -51,8 +67,47 @@ func Add(newPj Project) error {
 	return err
 }
 
+func Update(name string, update *UpdateProject) (err error) {
+
+	err = db.Db.Update(func(tx *bolt.Tx) (updateErr error) {
+		bucket := Bucket(tx)
+
+		var pj Project
+
+		rawPj := bucket.Get([]byte(name))
+
+		if rawPj == nil {
+			return errors.New(" Not Found")
+		}
+
+		updateErr = db.Deserialize(rawPj, &pj)
+
+		if updateErr != nil {
+			return updateErr
+		}
+
+		if update.Path != nil {
+			pj.Path = *update.Path
+		}
+		if update.Directories != nil {
+			pj.Directories = *update.Directories
+		}
+		if update.Last_use_at != nil {
+			pj.Last_use_at = *update.Last_use_at
+		}
+		if update.Usage != nil {
+			pj.Usage = *update.Usage
+		}
+
+		updateErr = bucket.Put([]byte(name), db.Serialize(&pj))
+
+		return updateErr
+	})
+	return err
+}
+
 // Args{b} is optional and can be set to nil
-func IsProjectNameDuplicate(name string, b *bolt.Bucket) bool {
+func CheckIsProjectExist(name string, b *bolt.Bucket) bool {
 
 	if b == nil {
 

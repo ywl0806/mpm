@@ -4,15 +4,16 @@ import (
 	"errors"
 	"log"
 	"os/exec"
+	"time"
 
 	"github.com/ywl0806/my-pj-manager/pkg/db/project"
 )
 
-func executeProject(project project.Project) {
+func executeProject(pj project.Project) {
 
-	for _, dir := range project.Directories {
+	for _, dir := range pj.Directories {
 
-		executer := exec.Command(dir.Cmd, project.Path+"/"+dir.Path, dir.Options)
+		executer := exec.Command(dir.Cmd, pj.Path+"/"+dir.Path, dir.Options)
 
 		if errors.Is(executer.Err, exec.ErrDot) {
 			executer.Err = nil
@@ -22,4 +23,12 @@ func executeProject(project project.Project) {
 		}
 
 	}
+
+	lastUseAt := time.Now().String()
+	usage := pj.Usage + 1
+	project.Update(pj.Name, &project.UpdateProject{
+		Last_use_at: &lastUseAt,
+		Usage:       &usage,
+	})
+
 }

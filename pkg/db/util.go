@@ -18,6 +18,7 @@ func Serialize(data interface{}) []byte {
 
 func Deserialize(data []byte, v interface{}) error {
 	gob.Register(v)
+
 	buf := bytes.NewBuffer(data)
 	dec := gob.NewDecoder(buf)
 	return dec.Decode(v)

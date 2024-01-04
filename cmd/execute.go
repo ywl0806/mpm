@@ -4,9 +4,8 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"github.com/ywl0806/my-pj-manager/pkg/execute"
 )
 
 // executeCmd represents the execute command
@@ -16,7 +15,7 @@ var executeCmd = &cobra.Command{
 	Short:   "Execute project",
 	Long:    ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("execute called")
+		execute.ExecuteProjectByNames(args)
 	},
 }
 

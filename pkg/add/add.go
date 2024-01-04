@@ -30,12 +30,6 @@ func Add(isAll bool, name string) {
 		}
 	}
 
-	// // 이름 중복체크
-	// if db.IsProjectNameDuplicate(newProject.Name) {
-	// 	fmt.Println("[" + newProject.Name + "]" + " name is duplicated")
-	// 	return
-	// }
-
 	var directoryNames []string
 	// 현재 폴더의 모든 디렉토리를 포함시킴
 	if !isAll {

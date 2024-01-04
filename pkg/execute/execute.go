@@ -1,6 +1,7 @@
 package execute
 
 import (
+	"log"
 	"sort"
 
 	"github.com/ywl0806/my-pj-manager/pkg/db/project"
@@ -12,19 +13,19 @@ func ExecuteRecentProject() {
 	executeProject(projects[0])
 }
 func ExecuteProjectByNames(names []string) {
-	allProjects, _ := project.List()
+
 	var projects []project.Project
 
-	nameSet := map[string]bool{}
-
 	for _, name := range names {
-		nameSet[name] = true
+		pj, err := project.FindByName(name)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		projects = append(projects, pj)
 	}
 
-	for _, pj := range allProjects {
-		if nameSet[pj.Name] {
-			projects = append(projects, pj)
-		}
+	for _, pj := range projects {
+		executeProject(pj)
 	}
 
 }
