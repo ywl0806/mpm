@@ -4,8 +4,6 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 	"github.com/ywl0806/my-pj-manager/pkg/add"
 )
@@ -16,15 +14,16 @@ var addCmd = &cobra.Command{
 	Short: "",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("init called")
+		deep, _ := cmd.Flags().GetInt("deep")
 		name, _ := cmd.Flags().GetString("name")
 		isAll, _ := cmd.Flags().GetBool("all")
-		add.Add(isAll, name)
+		add.Add(isAll, name, deep)
 
 	},
 }
 
 func init() {
+	addCmd.Flags().IntP("deep", "d", 0, "디렉토리의 계층")
 	addCmd.Flags().StringP("name", "n", "", "프로젝트 이름")
 	addCmd.Flags().BoolP("all", "a", false, "현재 디렉토리 전부를 대상")
 	rootCmd.AddCommand(addCmd)

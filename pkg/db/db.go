@@ -3,25 +3,49 @@ package db
 import (
 	"fmt"
 	"log"
+	"os"
+	"path/filepath"
 	"sync"
 
 	"github.com/boltdb/bolt"
 )
 
 var (
-	Db     *bolt.DB
+	DB     *bolt.DB
 	DbOnce sync.Once
 )
 var models = []string{"PROJECTS"}
 
 func InitalizeDB() {
+	env := os.Getenv("ENV")
+
 	var err error
-	Db, err = bolt.Open("tmp/my.db", 0600, nil)
+	ex, err := os.Executable()
+
+	if err != nil {
+		panic(err)
+	}
+	exPath := filepath.Dir(ex)
+
+	dirPath := filepath.Join(exPath, "data")
+	if env == "dev" {
+		dirPath = "tmp"
+	}
+
+	err = os.MkdirAll(dirPath, os.ModePerm)
+
+	if err != nil {
+		panic(err)
+	}
+
+	dbFilePath := filepath.Join(dirPath, "my.db")
+
+	DB, err = bolt.Open(dbFilePath, 0600, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = Db.Update(func(tx *bolt.Tx) error {
+	err = DB.Update(func(tx *bolt.Tx) error {
 		root, err := tx.CreateBucketIfNotExists([]byte("DB"))
 		if err != nil {
 			return fmt.Errorf("could not create root bucket: %v", err)
@@ -41,8 +65,8 @@ func InitalizeDB() {
 }
 
 func GetDB() *bolt.DB {
-	return Db
+	return DB
 }
 func CloseDB() {
-	Db.Close()
+	DB.Close()
 }

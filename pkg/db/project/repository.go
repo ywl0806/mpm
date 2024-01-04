@@ -13,7 +13,7 @@ func Bucket(tx *bolt.Tx) *bolt.Bucket {
 	return tx.Bucket([]byte("DB")).Bucket([]byte("PROJECTS"))
 }
 func FindByName(name string) (pj Project, err error) {
-	err = db.Db.View(func(tx *bolt.Tx) (viewErr error) {
+	err = db.DB.View(func(tx *bolt.Tx) (viewErr error) {
 		bucket := Bucket(tx)
 		rawPj := bucket.Get([]byte(name))
 
@@ -29,7 +29,7 @@ func FindByName(name string) (pj Project, err error) {
 }
 func List() (projects []Project, err error) {
 
-	err = db.Db.View(func(tx *bolt.Tx) error {
+	err = db.DB.View(func(tx *bolt.Tx) error {
 		bucket := Bucket(tx)
 		cursor := bucket.Cursor()
 		for key, value := cursor.First(); key != nil; key, value = cursor.Next() {
@@ -44,7 +44,7 @@ func List() (projects []Project, err error) {
 
 func Add(newPj Project) error {
 
-	err := db.Db.Update(func(tx *bolt.Tx) error {
+	err := db.DB.Update(func(tx *bolt.Tx) error {
 		var err error
 		if err != nil {
 			return fmt.Errorf("transaction start error: %v", err)
@@ -69,7 +69,7 @@ func Add(newPj Project) error {
 
 func Update(name string, update *UpdateProject) (err error) {
 
-	err = db.Db.Update(func(tx *bolt.Tx) (updateErr error) {
+	err = db.DB.Update(func(tx *bolt.Tx) (updateErr error) {
 		bucket := Bucket(tx)
 
 		var pj Project
@@ -111,7 +111,7 @@ func CheckIsProjectExist(name string, b *bolt.Bucket) bool {
 
 	if b == nil {
 
-		tx, err := db.Db.Begin(true)
+		tx, err := db.DB.Begin(true)
 		if err != nil {
 			log.Fatalln("transaction start error")
 		}

@@ -13,7 +13,9 @@ import (
 )
 
 // 현재 디렉토리를 등록
-func Add(isAll bool, name string) {
+func Add(isAll bool, name string, deep int) {
+	var err error
+
 	newProject := project.Project{}
 	currentPath, currentDirectoryName := getCurrentDirectory()
 
@@ -33,20 +35,16 @@ func Add(isAll bool, name string) {
 	var directoryNames []string
 	// 현재 폴더의 모든 디렉토리를 포함시킴
 	if !isAll {
-		var err error
-		directoryNames, err = ask.SurveyChooseDirectory()
+		directoryNames, err = ask.SurveyChooseDirectory(deep)
 		if err != nil {
 			log.Println(err.Error())
 			return
 		}
 	} else {
-		directoriesFile, err := util.GetDirectories("", "", true)
+		directoryNames, err = util.GetDirectories("", "", true, deep)
 		if err != nil {
 			log.Println(err.Error())
 			return
-		}
-		for _, dir := range directoriesFile {
-			directoryNames = append(directoryNames, dir.Name())
 		}
 	}
 
@@ -64,7 +62,7 @@ func Add(isAll bool, name string) {
 	newProject.Last_use_at = now
 
 	// create to db
-	err := project.Add(newProject)
+	err = project.Add(newProject)
 	if err != nil {
 		log.Fatalln(err.Error())
 		return

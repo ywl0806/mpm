@@ -12,7 +12,7 @@ import (
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Show list of your project",
-	Long:  ``,
+
 	Run: func(cmd *cobra.Command, args []string) {
 		detail, _ := cmd.Flags().GetBool("detail")
 
@@ -21,7 +21,7 @@ var listCmd = &cobra.Command{
 }
 
 func init() {
-	listCmd.Flags().BoolP("detail", "d", false, "상세정보 출력")
+	listCmd.Flags().BoolP("detail", "d", false, "show detail of projects")
 	rootCmd.AddCommand(listCmd)
 
 	// Here you will define your flags and configuration settings.

@@ -8,28 +8,17 @@ import (
 )
 
 // direcoty선택 질의
-func SurveyChooseDirectory() ([]string, error) {
-	// git이 들어있는 디렉토리를 위로 정렬
-	directoriesGit, _ := util.GetDirectories("", ".git", true)
-	directoriesNoGit, _ := util.GetDirectories("", ".git", false)
+func SurveyChooseDirectory(deep int) ([]string, error) {
 
-	directories := append(directoriesGit, directoriesNoGit...)
+	directoriesGit, _ := util.GetDirectories("", ".git", true, deep)
 
-	var directoryNames []string = []string{"."}
-
-	for _, dir := range directories {
-		directoryNames = append(directoryNames, dir.Name())
-	}
-	var directoryNamseGit []string
-
-	for _, dir := range directoriesGit {
-		directoryNamseGit = append(directoryNamseGit, dir.Name())
-	}
+	directories, _ := util.GetDirectories("", "", false, deep)
 
 	prompt := &survey.MultiSelect{
-		Message: "Choose directories",
-		Options: directoryNames,
-		Default: directoryNamseGit,
+		Message:  "Choose directories",
+		Options:  append([]string{"."}, directories...),
+		Default:  directoriesGit,
+		PageSize: 20,
 	}
 
 	var answer []string

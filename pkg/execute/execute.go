@@ -1,6 +1,7 @@
 package execute
 
 import (
+	"fmt"
 	"log"
 	"sort"
 
@@ -10,6 +11,10 @@ import (
 func ExecuteRecentProject() {
 	projects, _ := project.List()
 	sort.Slice(projects, func(i, j int) bool { return projects[i].Last_use_at > projects[j].Last_use_at })
+	if len(projects) == 0 {
+		fmt.Println("No projects exist")
+		return
+	}
 	executeProject(projects[0])
 }
 func ExecuteProjectByNames(names []string) {
