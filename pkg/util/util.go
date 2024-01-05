@@ -47,7 +47,6 @@ func findDirectory(root string, dir string, searchFileName string, include bool,
 		}
 
 		if deep != 0 {
-
 			findDirectory(root, nextDir, searchFileName, include, directories, deep-1)
 		}
 	}

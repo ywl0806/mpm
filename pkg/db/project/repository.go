@@ -106,6 +106,18 @@ func Update(name string, update *UpdateProject) (err error) {
 	return err
 }
 
+func Delete(name string) error {
+	err := db.DB.Update(func(tx *bolt.Tx) error {
+		bucket := Bucket(tx)
+
+		err := bucket.Delete([]byte(name))
+
+		return err
+	})
+
+	return err
+}
+
 // Args{b} is optional and can be set to nil
 func CheckIsProjectExist(name string, b *bolt.Bucket) bool {
 

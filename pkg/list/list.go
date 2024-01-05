@@ -17,20 +17,20 @@ func ShowList(detail bool) {
 	}
 
 	if detail {
-		showListDetail(list)
+		ShowListDetail(list)
 		return
 	}
-	showListOnlyName(list)
+	ShowListOnlyName(list)
 
 }
 
-func showListOnlyName(projects []project.Project) {
+func ShowListOnlyName(projects []project.Project) {
 	for _, pj := range projects {
 		fmt.Println(pj.Name)
 	}
 }
 
-func showListDetail(projects []project.Project) {
+func ShowListDetail(projects []project.Project) {
 	for _, pj := range projects {
 		fmt.Print("\n\n--------------------------------------\n\n")
 		fmt.Printf("Name : %s \n", pj.Name)
