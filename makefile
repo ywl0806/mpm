@@ -1,7 +1,7 @@
 .PHONY: build run
 
-build: build
-	go build -o mpm
+# build: 
+# 	go build -o mpm && mv ./mpm ~/go/bin
 
-run:
-	ENV=dev go run . $(ARGS)
+dev:
+	ENV=dev go run . $(ARGS) 

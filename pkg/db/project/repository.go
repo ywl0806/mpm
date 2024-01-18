@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/boltdb/bolt"
-	"github.com/ywl0806/my-pj-manager/pkg/db"
+	"github.com/ywl0806/mpm/pkg/db"
 )
 
 func Bucket(tx *bolt.Tx) *bolt.Bucket {
@@ -103,6 +103,18 @@ func Update(name string, update *UpdateProject) (err error) {
 
 		return updateErr
 	})
+	return err
+}
+
+func Delete(name string) error {
+	err := db.DB.Update(func(tx *bolt.Tx) error {
+		bucket := Bucket(tx)
+
+		err := bucket.Delete([]byte(name))
+
+		return err
+	})
+
 	return err
 }
 

@@ -5,27 +5,22 @@ import (
 	"sort"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/ywl0806/my-pj-manager/pkg/db/project"
+	"github.com/ywl0806/mpm/pkg/db/project"
 )
 
 func SelectProjects() (selectedPjs []string, err error) {
-	var projects []project.Project
-	projects, err = project.List()
+	var allPjNames []string
+
+	allPjNames, err = getProjectNamesSortedByLastUseAt()
 
 	if err != nil {
-		fmt.Println(err)
-		return nil, nil
+		fmt.Println(err.Error())
+		return nil, err
 	}
-	var allPjNames []string
-	sort.Slice(projects, func(i, j int) bool { return projects[i].Last_use_at > projects[j].Last_use_at })
-
-	for _, pj := range projects {
-		allPjNames = append(allPjNames, pj.Name)
-	}
-
 	prompt := &survey.MultiSelect{
-		Message: "Choose projects",
-		Options: allPjNames,
+		Message:  "Choose projects",
+		Options:  allPjNames,
+		PageSize: 20,
 	}
 
 	err = survey.AskOne(prompt, &selectedPjs)
@@ -36,4 +31,36 @@ func SelectProjects() (selectedPjs []string, err error) {
 	}
 
 	return selectedPjs, err
+}
+
+func PickProject() (projectName string, err error) {
+	var allPjNames []string
+
+	allPjNames, err = getProjectNamesSortedByLastUseAt()
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return "", err
+	}
+	prompt := &survey.Select{
+		Message:  "Pick project",
+		Options:  allPjNames,
+		PageSize: 20,
+	}
+
+	err = survey.AskOne(prompt, &projectName)
+
+	return projectName, err
+}
+
+func getProjectNamesSortedByLastUseAt() ([]string, error) {
+	projects, err := project.List()
+
+	sort.Slice(projects, func(i, j int) bool { return projects[i].Last_use_at > projects[j].Last_use_at })
+
+	var names []string
+	for _, pj := range projects {
+		names = append(names, pj.Name)
+	}
+	return names, err
 }
