@@ -5,7 +5,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/ywl0806/my-pj-manager/pkg/add"
+	"github.com/ywl0806/mpm/pkg/add"
 )
 
 // addCmd represents the init command

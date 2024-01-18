@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	deleteFunc "github.com/ywl0806/my-pj-manager/pkg/delete"
+	deleteFunc "github.com/ywl0806/mpm/pkg/delete"
 )
 
 var deleteCmd = &cobra.Command{

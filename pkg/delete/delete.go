@@ -3,9 +3,9 @@ package delete
 import (
 	"fmt"
 
-	"github.com/ywl0806/my-pj-manager/pkg/ask"
-	"github.com/ywl0806/my-pj-manager/pkg/db/project"
-	"github.com/ywl0806/my-pj-manager/pkg/list"
+	"github.com/ywl0806/mpm/pkg/ask"
+	"github.com/ywl0806/mpm/pkg/db/project"
+	"github.com/ywl0806/mpm/pkg/list"
 )
 
 func Delete() {

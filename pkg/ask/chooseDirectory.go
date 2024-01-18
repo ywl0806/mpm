@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/ywl0806/my-pj-manager/pkg/util"
+	"github.com/ywl0806/mpm/pkg/util"
 )
 
 // direcoty선택 질의

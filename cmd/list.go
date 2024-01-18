@@ -5,7 +5,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/ywl0806/my-pj-manager/pkg/list"
+	"github.com/ywl0806/mpm/pkg/list"
 )
 
 // listCmd represents the list command

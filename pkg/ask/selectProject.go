@@ -5,7 +5,7 @@ import (
 	"sort"
 
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/ywl0806/my-pj-manager/pkg/db/project"
+	"github.com/ywl0806/mpm/pkg/db/project"
 )
 
 func SelectProjects() (selectedPjs []string, err error) {

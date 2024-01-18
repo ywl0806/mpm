@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/boltdb/bolt"
-	"github.com/ywl0806/my-pj-manager/pkg/db"
+	"github.com/ywl0806/mpm/pkg/db"
 )
 
 func Bucket(tx *bolt.Tx) *bolt.Bucket {

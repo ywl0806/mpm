@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/ywl0806/my-pj-manager/pkg/execute"
+	"github.com/ywl0806/mpm/pkg/execute"
 )
 
 var rootCmd = &cobra.Command{

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/ywl0806/my-pj-manager/cmd"
-	"github.com/ywl0806/my-pj-manager/pkg/db"
+	"github.com/ywl0806/mpm/cmd"
+	"github.com/ywl0806/mpm/pkg/db"
 )
 
 func main() {

@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ywl0806/my-pj-manager/pkg/ask"
-	"github.com/ywl0806/my-pj-manager/pkg/db/project"
-	"github.com/ywl0806/my-pj-manager/pkg/util"
+	"github.com/ywl0806/mpm/pkg/ask"
+	"github.com/ywl0806/mpm/pkg/db/project"
+	"github.com/ywl0806/mpm/pkg/util"
 )
 
 // 현재 디렉토리를 등록

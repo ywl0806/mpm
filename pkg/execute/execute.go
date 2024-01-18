@@ -5,7 +5,7 @@ import (
 	"log"
 	"sort"
 
-	"github.com/ywl0806/my-pj-manager/pkg/db/project"
+	"github.com/ywl0806/mpm/pkg/db/project"
 )
 
 func ExecuteRecentProject() {
