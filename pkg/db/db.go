@@ -27,7 +27,7 @@ func InitalizeDB() {
 	}
 	exPath := filepath.Dir(ex)
 
-	dirPath := filepath.Join(exPath, "data")
+	dirPath := filepath.Join(exPath, ".mpm")
 	if env == "dev" {
 		dirPath = "tmp"
 	}
