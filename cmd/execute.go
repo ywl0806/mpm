@@ -18,7 +18,20 @@ var executeCmd = &cobra.Command{
 	Short:   "Execute project",
 	Long:    ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		projectNames, err := ask.SelectProjects()
+		multi, err := cmd.Flags().GetBool("multi")
+		if err != nil {
+			fmt.Println(err.Error())
+			return
+		}
+
+		var projectNames []string
+		if multi {
+			projectNames, err = ask.SelectProjects()
+		} else {
+			projectName, _ := ask.PickProject()
+			projectNames = append(projectNames, projectName)
+
+		}
 		if err != nil {
 			fmt.Println(err.Error())
 			return
@@ -28,5 +41,7 @@ var executeCmd = &cobra.Command{
 }
 
 func init() {
+	executeCmd.Flags().BoolP("multi", "m", false, "Execute multiple projects")
 	rootCmd.AddCommand(executeCmd)
+
 }
