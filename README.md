@@ -2,7 +2,7 @@
 
 ## Introduction
 
-이 CLI는 통합 개발 환경(IDE) 또는 텍스트 편집기에서 프로젝트를 실행하는 프로세스를 간소화합니다. 이 CLI를 사용하면 명령 코드 [프로젝트 이름]을 실행하여 지정된 프로젝트를 원활하게 시작할 수 있습니다.
+This CLI simplifies the process of running projects from an Integrated Development Environment (IDE) or a text editor. By using this CLI, you can smoothly start a specified project by executing the command code [project name].
 
 ## Why
 
@@ -16,15 +16,15 @@ go install github.com/ywl0806/mpm
 
 ## Usage
 
-원한다면 `.bashrc`나`.zshrc`에 `export PATH="$HOME/go/bin:$PATH"`를 추가하세요
+You can add `export PATH="$HOME/go/bin:$PATH"` to .bashrc or .zshrc.
 
-당신의 프로젝트 디렉토리에 가서 다음 커맨드를 실행하면 질의가 시작됩니다.
+Navigate to your project directory and execute the following command, a prompt will start.
 
 ```bash
 mpm add
 ```
 
-프로젝트 이름과 해당되는 디렉토리를 설정하고 각각의 디렉토리에 해당하는 커맨드와 옵션을 입력하세요.
+Set the project name and its corresponding directories, and input the commands and options for each directory.
 
 ```
 Project Name: my-project
@@ -35,20 +35,20 @@ Commands for directory [server]: code
 Options for directory [server]:
 ```
 
-`-d`나 `--deep`옵션을 이용하면 디렉토리의 계층을 재귀적으로 가져옵니다
+Use the -d or --deep option to recursively fetch directories.
 
 ```bash
-# 현재의 디렉토리 2계층 아래까지 가져옴
+# Fetch directories up to 2 levels deep from the current directory
 mpm add -d 2
 ```
 
-다음 커맨드를 실행하면 가장 최근에 실행되었거나 추가된 프로젝트가 실행됩니다
+Execute the following command to run the most recently executed or added project.
 
 ```bash
 mpm
 ```
 
-다음 커맨드를 실행하면 프로젝트를 질의를 통해 프로젝트를 선택하여 실행할수 있습니다
+Execute the following command to select and run a project through prompts.
 
 ```bash
 mpm e
@@ -59,13 +59,13 @@ mpm run
 ```
 
 ```bash
-# 현재 등록되어있는 프로젝트의 리스트
+# List of currently registered projects
 mpm list
-# 현재 등록되어있는 프로젝트들의 상세정보
+# Detailed information about currently registered projects
 mpm list -d
 ```
 
 ```bash
-# 프로젝트를 선택하여 삭제
+# Select and delete a project
 mpm delete
 ```
