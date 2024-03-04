@@ -37,11 +37,11 @@ func updateTimestamp(pj project.Project) {
 }
 
 func executeProjectAsOneWindow(pjs []project.Project) {
-	paths := make([]string, len(pjs))
+	paths := make([]string, 0)
 
-	for i, pj := range pjs {
+	for _, pj := range pjs {
 		for _, dir := range pj.Directories {
-			paths[i] = pj.Path + "/" + dir.Path
+			paths = append(paths, pj.Path+"/"+dir.Path)
 		}
 	}
 	defaultCmd := pjs[0].DefaultCmd
