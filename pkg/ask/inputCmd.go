@@ -9,9 +9,9 @@ type DirectoryInput struct {
 	Options string
 }
 
-func InputCmd() (string, error) {
+func InputCmd(message string) (string, error) {
 	prompt := &survey.Input{
-		Message: "Command: ",
+		Message: message,
 		Default: "code",
 	}
 
@@ -27,8 +27,8 @@ func InputCmd() (string, error) {
 }
 
 // Directory에 대해 커맨드와 옵션을 입력받음
-func InputCmdEachDirectories(directories []string) (map[string]DirectoryInput, error) {
-	var defaultCmd string = ""
+func InputCmdEachDirectories(directories []string, defaultCmd string) (map[string]DirectoryInput, error) {
+
 	answer := make(map[string]DirectoryInput)
 
 	var err error = nil
@@ -36,11 +36,11 @@ func InputCmdEachDirectories(directories []string) (map[string]DirectoryInput, e
 		questions := []*survey.Question{
 			{
 				Name:   "Cmd",
-				Prompt: &survey.Input{Message: "Commands for directory [" + dir + "]: ", Default: defaultCmd},
+				Prompt: &survey.Input{Message: "Commands for directory '" + dir + "': ", Default: defaultCmd},
 			},
 			{
 				Name:   "Options",
-				Prompt: &survey.Input{Message: "Options for directory [" + dir + "]: "},
+				Prompt: &survey.Input{Message: "Options for directory '" + dir + "': "},
 			},
 		}
 

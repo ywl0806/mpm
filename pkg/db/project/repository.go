@@ -46,9 +46,6 @@ func Add(newPj Project) error {
 
 	err := db.DB.Update(func(tx *bolt.Tx) error {
 		var err error
-		if err != nil {
-			return fmt.Errorf("transaction start error: %v", err)
-		}
 
 		b := Bucket(tx)
 

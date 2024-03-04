@@ -34,3 +34,18 @@ func ExecuteProjectByNames(names []string) {
 	}
 
 }
+
+func ExecuteProjectAsOneWindow(names []string) {
+
+	var projects []project.Project
+
+	for _, name := range names {
+		pj, err := project.FindByName(name)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		projects = append(projects, pj)
+	}
+
+	executeProjectAsOneWindow(projects)
+}

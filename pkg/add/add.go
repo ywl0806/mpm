@@ -48,7 +48,14 @@ func Add(isAll bool, name string, deep int) {
 		}
 	}
 
-	commands, _ := ask.InputCmdEachDirectories(directoryNames)
+	defaultCmd, err := ask.InputCmd("Default Command:")
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+	newProject.DefaultCmd = defaultCmd
+
+	commands, _ := ask.InputCmdEachDirectories(directoryNames, defaultCmd)
 
 	for _, name := range directoryNames {
 		newProject.Directories = append(
@@ -67,13 +74,6 @@ func Add(isAll bool, name string, deep int) {
 		log.Fatalln(err.Error())
 		return
 	}
-
-	// _, dbAddErr := db.Add(newProject)
-
-	// if dbAddErr != nil {
-	// 	log.Fatalln(dbAddErr.Error())
-	// 	return
-	// }
 
 	fmt.Println("Success to Add")
 	fmt.Println(newProject)
