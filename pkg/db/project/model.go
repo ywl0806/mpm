@@ -7,6 +7,7 @@ type Project struct {
 	Last_use_at string      `json:"last_use_at"`
 	Created_at  string      `json:"created_at"`
 	Directories []Directory `json:"directories"`
+	DefaultCmd  string      `json:"default_cmd"`
 }
 
 type Directory struct {
