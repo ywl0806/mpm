@@ -63,3 +63,18 @@ func CheckFileIsExist(filename string, directory string) bool {
 	}
 	return false
 }
+func Array2Set(arr []string) map[string]bool {
+	set := make(map[string]bool)
+	for _, v := range arr {
+		set[v] = true
+	}
+	return set
+}
+func Contains(arr []string, target string) bool {
+	for _, v := range arr {
+		if v == target {
+			return true
+		}
+	}
+	return false
+}
