@@ -15,9 +15,28 @@ func ExecuteRecentProject() {
 		fmt.Println("No projects exist")
 		return
 	}
-	executeProject(projects[0])
+	executeProject(projects[0], nil)
 }
-func ExecuteProjectByNames(names []string) {
+func ExecuteProjectByNames(names []string, pickDirs [][]string) {
+
+	projects := make([]project.Project, 0)
+
+	for _, name := range names {
+		pj, err := project.FindByName(name)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		projects = append(projects, pj)
+	}
+
+	for index, pj := range projects {
+
+		executeProject(pj, pickDirs[index])
+	}
+
+}
+
+func ExecuteProjectAsOneWindow(names []string, pickDirs [][]string) {
 
 	var projects []project.Project
 
@@ -29,23 +48,5 @@ func ExecuteProjectByNames(names []string) {
 		projects = append(projects, pj)
 	}
 
-	for _, pj := range projects {
-		executeProject(pj)
-	}
-
-}
-
-func ExecuteProjectAsOneWindow(names []string) {
-
-	var projects []project.Project
-
-	for _, name := range names {
-		pj, err := project.FindByName(name)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		projects = append(projects, pj)
-	}
-
-	executeProjectAsOneWindow(projects)
+	executeProjectAsOneWindow(projects, pickDirs)
 }

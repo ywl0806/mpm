@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/ywl0806/mpm/pkg/db/project"
 	"github.com/ywl0806/mpm/pkg/util"
 )
 
@@ -27,5 +28,26 @@ func SurveyChooseDirectory(deep int) ([]string, error) {
 		log.Println(err.Error())
 		return nil, err
 	}
+	return answer, nil
+}
+
+func PickDirs(pj project.Project) ([]string, error) {
+	var dirs []string
+
+	for _, dir := range pj.Directories {
+		dirs = append(dirs, dir.Path)
+	}
+
+	prompt := &survey.MultiSelect{
+		Message: "Choose directories" + " in " + pj.Name,
+		Options: dirs,
+	}
+	var answer []string
+	err := survey.AskOne(prompt, &answer)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
 	return answer, nil
 }
