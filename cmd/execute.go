@@ -55,8 +55,12 @@ var executeCmd = &cobra.Command{
 			for index, pn := range projectNames {
 				pj, err := project.FindByName(pn)
 				if err == nil {
-					pdir, _ := ask.PickDirs(pj)
+					pdir, err := ask.PickDirs(pj)
 					pickDirs[index] = pdir
+					if err != nil {
+						fmt.Println(err.Error())
+						return
+					}
 				}
 			}
 

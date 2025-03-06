@@ -7,6 +7,7 @@ import (
 
 func main() {
 	db.DbOnce.Do(db.InitalizeDB)
+
 	cmd.Execute()
 
 	defer db.CloseDB()
