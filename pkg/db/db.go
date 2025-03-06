@@ -23,13 +23,6 @@ func InitalizeDB() {
 
 	dirPath := getMPMDir()
 
-	fmt.Println(dirPath)
-	fmt.Println(dirPath)
-	fmt.Println(dirPath)
-	fmt.Println(dirPath)
-	fmt.Println(dirPath)
-	fmt.Println(dirPath)
-
 	if env == "dev" {
 		dirPath = "tmp"
 	}
