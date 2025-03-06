@@ -20,14 +20,16 @@ func InitalizeDB() {
 	env := os.Getenv("ENV")
 
 	var err error
-	ex, err := os.Executable()
 
-	if err != nil {
-		panic(err)
-	}
-	exPath := filepath.Dir(ex)
+	dirPath := getMPMDir()
 
-	dirPath := filepath.Join(exPath, ".mpm")
+	fmt.Println(dirPath)
+	fmt.Println(dirPath)
+	fmt.Println(dirPath)
+	fmt.Println(dirPath)
+	fmt.Println(dirPath)
+	fmt.Println(dirPath)
+
 	if env == "dev" {
 		dirPath = "tmp"
 	}
@@ -69,4 +71,17 @@ func GetDB() *bolt.DB {
 }
 func CloseDB() {
 	DB.Close()
+}
+func getMPMDir() string {
+	// 환경 변수 `MPM_DIR`이 설정되어 있으면 그걸 사용
+	if customDir := os.Getenv("MPM_DIR"); customDir != "" {
+		return customDir
+	}
+
+	// 기본적으로 홈 디렉토리에 저장
+	home, err := os.UserHomeDir()
+	if err != nil {
+		panic("Failed to get home directory")
+	}
+	return filepath.Join(home, ".mpm")
 }
