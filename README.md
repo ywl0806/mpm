@@ -14,6 +14,12 @@ This CLI simplifies the process of running projects from an Integrated Developme
 go install github.com/ywl0806/mpm
 ```
 
+### brew
+
+```bash
+brew install ywl0806/tap/mpm
+```
+
 ## Usage
 
 You can add `export PATH="$HOME/go/bin:$PATH"` to .bashrc or .zshrc.
