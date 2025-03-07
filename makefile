@@ -10,15 +10,18 @@ dev:
 
 
 build-release:
-	GOOS=darwin GOARCH=amd64 go build -o mpm-darwin-amd64
-	GOOS=linux GOARCH=arm64 go build -o mpm-darwin-arm64
-	tar -czvf mpm-darwin-amd64.tar.gz mpm-darwin-amd64
-	tar -czvf mpm-darwin-arm64.tar.gz mpm-darwin-arm64
-	rm mpm-darwin-amd64
-	rm mpm-darwin-arm64
+	GOOS=darwin GOARCH=amd64 go build -o mpm
+	tar -czvf mpm-darwin-amd64.tar.gz mpm
+	rm mpm
+
+	GOOS=darwin GOARCH=arm64 go build -o mpm
+	tar -czvf mpm-darwin-arm64.tar.gz mpm
+	rm mpm
+
 	mkdir -p ./releases/download/${VERSION}
 	mv mpm-darwin-amd64.tar.gz ./releases/download/${VERSION}/mpm-darwin-amd64.tar.gz
 	mv mpm-darwin-arm64.tar.gz ./releases/download/${VERSION}/mpm-darwin-arm64.tar.gz
+
 	shasum -a 256 ./releases/download/${VERSION}/mpm-darwin-amd64.tar.gz > ./releases/download/${VERSION}/mpm-darwin-amd64.tar.gz.sha256
 	@echo "SHA256 for mpm-darwin-amd64.tar.gz"
 	@echo "\n\n-------------------------------------\n\n"
